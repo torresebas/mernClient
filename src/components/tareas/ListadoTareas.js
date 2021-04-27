@@ -1,22 +1,39 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Tarea from './Tarea'
+
+import proyectoContext from '../../context/proyectos/proyectoContext';
+import tareaContext from  "../../context/tareas/tareaContext";
+
 
 const ListadoTareas = () => {
   
-  const tareasProyecto = [
-    {id:"1", nombre: "Elegir plataforma", estado:true},
-    {id:"2", nombre: "Elegir colores", estado:false},
-    {id:"3", nombre: "Elegir plataforma de pago", estado:false},
-    {id:"4", nombre: "Elegir Hosting", estado:true}
-  ]
+  // Extraer proyectos del state incial
+  const proyectosContext = useContext(proyectoContext);
+  const { proyecto , eliminarProyecto} = proyectosContext
+
+  //obtenemos las tareas del proyecto
+  const tareasContext = useContext(tareaContext);
+  const { tareasproyecto } = tareasContext;
+  
+  // Si no hay un proyecto seleccionado
+  if(!proyecto) return <h1>Selecciona un proyecto</h1>;
+
+  //(ARRAY DESTRUCTURING!!!) para extraer el proyecto actual
+  const [ proyectoActual ] = proyecto;
+
+
+  // Elimina un proyecto
+  const onClickEliminar = () => {
+    eliminarProyecto(proyectoActual.id)
+  }
 
   return (
     <>
-      <h1>proyecto: Tienda Virtual</h1>
+      <h1>Proyecto: {proyectoActual.nombre}</h1>
       <ul className="listado-tareas">
-        {tareasProyecto.length === 0
+        {tareasproyecto.length === 0
           ? (<li className='tarea'><p>No hay tareas</p></li>)
-          : tareasProyecto.map(tarea =>(
+          : tareasproyecto.map(tarea =>(
             <Tarea
               key={tarea.id}
               tarea={tarea}
@@ -28,6 +45,7 @@ const ListadoTareas = () => {
       <button
         type="button"
         className="btn btn-eliminar"
+        onClick={onClickEliminar}
       >Eliminar Proyecto &times;</button>
     </>
   );
