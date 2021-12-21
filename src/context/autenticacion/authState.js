@@ -34,7 +34,7 @@ const AuthState = (props) => {
     } catch (error) {
       // console.log(error.response.data.meg)
       const alerta = {
-        msg: error.response.data.meg,
+        msg: error.response.data.msg,
         categoria: 'alerta-error'
       };
       dispatch({
