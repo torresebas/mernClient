@@ -1,55 +1,65 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import AlertaContext from "../../context/alertas/alertaContext";
 
 const NuevaCuenta = () => {
+  //extraer los valores del context
+  const alertaContex = useContext(AlertaContext);
+  const { alerta, mostarAlerta } = alertaContex;
 
   // State para inicar sesion
   const [usuario, guardarUsuario] = useState({
-    nombre:'',
-    email:'',
-    password:'',
-    confirmar:''
+    nombre: "",
+    email: "",
+    password: "",
+    confirmar: "",
   });
 
   // Extraer de usuario
   const { nombre, email, password, confirmar } = usuario;
 
-  const onChange = e => {
+  const onChange = (e) => {
     guardarUsuario({
-      ...usuario, 
-      [e.target.name]: e.target.value
-    })
-  }
+      ...usuario,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // Cuando el usuario quiere iniciar sesion
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     // Validar campos vacios
+    if (
+      nombre.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      confirmar.trim() === ""
+    ) {
+      mostarAlerta("Todos los campos deben ser obligatorios", 'alerta-error');
+    }
 
     // Password minimo 6 caracteres
+    
 
     // Dos passwords iguales
 
     // Pasarlo al acction
-
-
-  }
-
+  };
 
   return (
     <div className="form-usuario">
+      {alerta ? (
+        <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>
+      ) : null}
       <div className="contenedor-form sombra-dark">
         <h1>Obtener una Cuenta</h1>
-        <form
-          onSubmit={onSubmit}
-        >
-
+        <form onSubmit={onSubmit}>
           <div className="campo-form">
             <label htmlFor="noombre">Nombre</label>
-            <input 
-              type="text" 
-              name="nombre" 
+            <input
+              type="text"
+              name="nombre"
               id="nombre"
               placeholder="Tu Nombre"
               value={nombre}
@@ -59,9 +69,9 @@ const NuevaCuenta = () => {
 
           <div className="campo-form">
             <label htmlFor="email">Email</label>
-            <input 
-              type="email" 
-              name="email" 
+            <input
+              type="email"
+              name="email"
               id="email"
               placeholder="Tu Email"
               value={email}
@@ -71,9 +81,9 @@ const NuevaCuenta = () => {
 
           <div className="campo-form">
             <label htmlFor="password">Password</label>
-            <input 
-              type="password" 
-              name="password" 
+            <input
+              type="password"
+              name="password"
               id="password"
               placeholder="Tu Password"
               value={password}
@@ -83,9 +93,9 @@ const NuevaCuenta = () => {
 
           <div className="campo-form">
             <label htmlFor="confirmar">Confirmar Password</label>
-            <input 
-              type="password" 
-              name="confirmar" 
+            <input
+              type="password"
+              name="confirmar"
               id="confirmar"
               placeholder="Repite Tu Password"
               value={confirmar}
@@ -94,12 +104,12 @@ const NuevaCuenta = () => {
           </div>
 
           <div className="campo-">
-            <input 
-              type="submit" 
+            <input
+              type="submit"
               className="btn btn-primario btn-block"
-              value="Registrarme"/>
+              value="Registrarme"
+            />
           </div>
-
         </form>
 
         <Link to="/" className="enlace-cuenta">

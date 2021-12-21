@@ -21,6 +21,8 @@ const AlertaState = (props) => {
       },
     });
 
+
+    //desps de 5 seg limpia la alerta
     setTimeout(() => {
       dispatch({
         type: OCULAR_ALERTA,
@@ -28,14 +30,14 @@ const AlertaState = (props) => {
     }, 5000);
   };
   return (
-    <alertaContext
+    <alertaContext.Provider
       value={{
         alerta: state.alerta,
         mostarAlerta,
       }}
     >
       {props.children}
-    </alertaContext>
+    </alertaContext.Provider>
   );
 };
 
