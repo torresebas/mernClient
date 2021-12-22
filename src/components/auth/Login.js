@@ -1,49 +1,58 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import AlertaContext from "../../context/alertas/alertaContext";
+import AuthContext from "../../context/autenticacion/authContext";
 
 const Login = () => {
+  //extraer los valores del context
+  const alertaContex = useContext(AlertaContext);
+  const { alerta, mostarAlerta } = alertaContex;
+
+  const authContext = useContext(AuthContext);
+  const { mensaje, autenticado, iniciarSesion } = authContext;
 
   // State para inicar sesion
   const [usuario, guardarUsuario] = useState({
-    email:'',
-    password:''
+    email: "",
+    password: "",
   });
 
   // Extraer de usuario
   const { email, password } = usuario;
 
-  const onChange = e => {
+  const onChange = (e) => {
     guardarUsuario({
-      ...usuario, 
-      [e.target.name]: e.target.value
-    })
-  }
+      ...usuario,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // Cuando el usuario quiere iniciar sesion
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     // Validar campos vacios
+    if (email.trim() === "" || password.trim() === "") {
+      mostarAlerta("Todos los campos son obligatorios", "alerta-error") ;
+    }
 
     // Pasarlo al acction
-
-
-  }
-
+    iniciarSesion({email, password})
+  };
 
   return (
     <div className="form-usuario">
+      {alerta ? (
+        <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>
+      ) : null}
       <div className="contenedor-form sombra-dark">
         <h1>Iniciar Sesion</h1>
-        <form
-          onSubmit={onSubmit}
-        >
-
+        <form onSubmit={onSubmit}>
           <div className="campo-form">
             <label htmlFor="email">Email</label>
-            <input 
-              type="email" 
-              name="email" 
+            <input
+              type="email"
+              name="email"
               id="email"
               placeholder="Tu Email"
               value={email}
@@ -53,9 +62,9 @@ const Login = () => {
 
           <div className="campo-form">
             <label htmlFor="password">Password</label>
-            <input 
-              type="password" 
-              name="password" 
+            <input
+              type="password"
+              name="password"
               id="password"
               placeholder="Tu Password"
               value={password}
@@ -64,12 +73,12 @@ const Login = () => {
           </div>
 
           <div className="campo-">
-            <input 
-              type="submit" 
+            <input
+              type="submit"
               className="btn btn-primario btn-block"
-              value="Iniciar Sesion"/>
+              value="Iniciar Sesion"
+            />
           </div>
-
         </form>
 
         <Link to="/nueva-cuenta" className="enlace-cuenta">
