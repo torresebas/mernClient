@@ -104,7 +104,8 @@ const AuthState = (props) => {
         mensaje: state.mensaje,
 
         registrarUsuario,
-        iniciarSesion
+        iniciarSesion,
+        usuarioAutenticado
       }}
     >
       {props.children}
