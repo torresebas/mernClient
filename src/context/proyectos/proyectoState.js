@@ -15,12 +15,7 @@ import {
 import clienteAxios from "../../config/axios";
 
 const ProyectoState = (props) => {
-  const proyectos = [
-    { id: 1, nombre: "Tienda virtual" },
-    { id: 2, nombre: "Intranet" },
-    { id: 3, nombre: "MERN" },
-    { id: 4, nombre: "Diseno web" },
-  ];
+  
 
   const initialState = {
     proyectos: [],
@@ -41,10 +36,11 @@ const ProyectoState = (props) => {
   };
 
   // Obtener los proyectos
-  const obtenerProyectos = () => {
+  const obtenerProyectos = async () => {
+    const resultado = await clienteAxios.get('/api/proyectos')
     dispatch({
       type: OBTENER_PROYECTO,
-      payload: proyectos,
+      payload: resultado.data.proyectos
     });
   };
 
