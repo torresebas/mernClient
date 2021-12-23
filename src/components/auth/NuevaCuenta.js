@@ -21,6 +21,7 @@ const NuevaCuenta = (props) => {
     if(mensaje){
       mostarAlerta(mensaje.msg, mensaje.categoria);
     }
+    // eslint-disable-next-line
   },[mensaje, autenticado, props.history ]) 
 
   // State para inicar sesion

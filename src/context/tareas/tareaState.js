@@ -9,7 +9,6 @@ import {
   AGREGAR_TAREA,
   VALIDAR_TAREA,
   ELIMINAR_TAREA,
-  ESTADO_TAREA,
   TAREA_ACTUAL,
   ACTUALIZAR_TAREA,
   LIMPIAR_TAREA,
@@ -47,6 +46,7 @@ const TareaState = (props) => {
   const agregarTarea = async (tarea) => {
     try {
       const resultado = await clienteAxios.post("/api/tareas", tarea);
+      console.log(resultado)
       dispatch({
         type: AGREGAR_TAREA,
         payload: tarea,
